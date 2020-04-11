@@ -1111,8 +1111,9 @@ public class PatientBillEdit extends JDialog implements SelectionListener {
 							return;
 						}
 						fireBillInserted(newBill);
-						dispose();
-						
+						if (modified) {
+							modified = false;
+						}
 					} else {
 						Bill updateBill = new Bill(thisBill.getId(),		//Bill ID
 								billDate,									//from calendar
@@ -1150,7 +1151,9 @@ public class PatientBillEdit extends JDialog implements SelectionListener {
 						if (TxtPrinter.PRINT_AS_PAID)
 							new GenericReportBill(billID, GeneralData.PATIENTBILL, false, !TxtPrinter.PRINT_WITHOUT_ASK);
 					}
-					dispose();
+					if (modified) {
+						modified = false;
+					}
 				}
 			});
 		}
@@ -1260,6 +1263,7 @@ public class PatientBillEdit extends JDialog implements SelectionListener {
 								icon);
 						if (ok == JOptionPane.YES_OPTION) {
 							jButtonSave.doClick();
+							dispose();
 						} else if (ok == JOptionPane.NO_OPTION) {
 							dispose();
 						} else return;
